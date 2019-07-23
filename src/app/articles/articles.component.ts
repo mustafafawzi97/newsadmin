@@ -7,6 +7,7 @@ import { ConfirmDeleteComponent } from '../confirm-delete/confirm-delete.compone
 import { ArticleViewComponent } from '../article-view/article-view.component'
 import { MatDialog } from "@angular/material";
 import { ToastrService } from 'ngx-toastr';
+import { Articles } from 'app/services/models/articles.model';
 const STORAGE_KEY = 'local_user';
 
 @Component({
@@ -16,7 +17,9 @@ const STORAGE_KEY = 'local_user';
 })
 export class ArticlesComponent implements OnInit, AfterViewInit {
 
-  constructor(private firestoreService: WebService,
+  articlesData: Articles[];
+
+  constructor(private webService: WebService,
     private router: Router,
     private spinnerService: NgxSpinnerService,
     @Inject(SESSION_STORAGE) private storage: StorageService,
@@ -46,7 +49,9 @@ export class ArticlesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.spinnerService.hide();
-    // GET NEWS FROM DATABASE
+    this.webService.getArticles().subscribe((article: Articles[]) => {
+      this.articlesData = article;
+    });
   }
 
   substringText(text): any {
@@ -54,7 +59,16 @@ export class ArticlesComponent implements OnInit, AfterViewInit {
   }
 
   deleteArticle(item) {
-    // SENT DELETE REQUEST 
+    this.webService.deleteArticle(item).subscribe(data => {
+      if (data['delete'] != undefined && data['delete'] == true) {
+        this.toastr.show("تم حذف الخبر بنجاح", "نجاح");
+        window.location.reload();
+      }
+    }, error => {
+      if (error.status == 422) {
+        this.toastr.show("حدث خطا اثناء حذف الخبر", "خطأ");
+      }
+    });
   }
 
   updateArticle(item) {

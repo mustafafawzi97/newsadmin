@@ -25,18 +25,12 @@
                                             (change)="onSelectedFile($event)" accept=".png,.jpg" required />
                                         <label class="btn btn-danger" for="file"><i style="margin: 0 auto"
                                                 class="material-icons">cloud_upload</i></label>
-                                        <div class="progress">
-                                            <div class="progress-bar default-bg-color" role="progressbar"
-                                                [style.width]="(uploadProgress | async) + '%'"
-                                                [attr.aria-valuenow]="(uploadProgress | async)" aria-valuemin="0"
-                                                aria-valuemax="100"></div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row" style="text-align: right; direction: rtl">
                                 <div class="col-md-12">
-                                    <ngx-trumbowyg-editor name="editor" [(ngModel)]="article.description">
+                                    <ngx-trumbowyg-editor name="editor" [(ngModel)]="article.content">
                                     </ngx-trumbowyg-editor>
                                 </div>
                             </div>

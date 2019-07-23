@@ -1,10 +1,10 @@
 <h2 mat-dialog-title>التفاصيل</h2>
 <mat-dialog-content class="mat-typography">
-  <div >
-    <img style = "width: 100%;height: auto;" src = "{{data.article.image}}"/>
+  <div>
+    <img style="width: 100%;height: auto;" src="{{data.article.image}}" />
     <p class="card-title">{{data.article.date}}</p>
     <h3 class="card-text">{{data.article.title}}</h3>
-    <div [innerHTML]="data.article.description"></div>
+    <div [innerHTML]="data.article.content"></div>
   </div>
 
 </mat-dialog-content>
