@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class Articles {
     id: number;
     title: string;
-    description: string;
-    image: Blob;
-    imgname: string;
+    content: string;
+    image: string;
+    date: string;
 }
