@@ -6,6 +6,7 @@ import { StorageService, SESSION_STORAGE } from 'angular-webstorage-service';
 import { ConfirmDeleteComponent } from '../confirm-delete/confirm-delete.component'
 import { MatDialog } from "@angular/material";
 import { ToastrService } from 'ngx-toastr';
+import { Notify } from '../services/models/notify.model';
 const STORAGE_KEY = 'local_user';
 
 @Component({
@@ -15,7 +16,9 @@ const STORAGE_KEY = 'local_user';
 })
 export class AllNotifyComponent implements OnInit, AfterViewInit {
 
-  constructor(private firestoreService: WebService,
+  notifyData: Notify[];
+
+  constructor(private webService: WebService,
     private router: Router, private spinnerService: NgxSpinnerService,
     @Inject(SESSION_STORAGE) private storage: StorageService,
     private toastr: ToastrService,
@@ -38,11 +41,22 @@ export class AllNotifyComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.spinnerService.hide();
-    // GET NOTIFY FROM DATABASE
+    this.webService.getNotify().subscribe((notify: Notify[]) => {
+      this.notifyData = notify;
+    });
   }
 
   deleteEvent(item) {
-    // SENT DELTE REQUEST TO DELETE DATA
+    this.webService.deleteNotify(item).subscribe(data => {
+      console.log(data['delete']);
+      if (data['delete'] != undefined && data['delete'] == true) {
+        this.toastr.show("تم حذف الحدث بنجاح", "نجاح");
+      }
+    }, error => {
+      if (error.status == 422) {
+        this.toastr.show("حدث خطا اثناء حذف الحدث", "خطأ");
+      }
+    });
   }
 }
 
