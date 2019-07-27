@@ -33,9 +33,14 @@ export class NotifyComponent implements OnInit {
     await this.webService.addNotify(this.notify).subscribe(data => {
       console.log(data['add']);
       if (data['add'] != undefined && data['add'] == true) {
-        form.resetForm();
-        this.toastr.show("تم اضافة الحدث بنجاح", "نجاح");
-        this.router.navigate(['all-notify']);
+        this.webService.sentNotify(this.notify).subscribe(data => {
+          console.log(data);
+          if (data != undefined || data != null) {
+            form.resetForm();
+            this.toastr.show("تم اضافة الحدث بنجاح", "نجاح");
+            this.router.navigate(['all-notify']);
+          }
+        })
       }
     }, error => {
       if (error.status == 422) {

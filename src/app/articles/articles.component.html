@@ -19,7 +19,7 @@
                                 <p class="card-text"><small class="text-muted">{{item.date}}</small></p>
                                 <button class="btn btn-danger btn-round btn-sm" (click)="viewDialog(item)"><i
                                         style="margin: 0 auto" class="material-icons">visibility</i></button>
-                                <button class="btn btn-danger btn-round btn-sm" (click)="updateArticle(item)"><i
+                                <button [routerLink]="['/edit-article', item.id]" class="btn btn-danger btn-round btn-sm"><i
                                         style="margin: 0 auto" class="material-icons">edit</i></button>
                                 <button class="btn btn-danger btn-round btn-sm" (click)="openDialog(item.id)"><i
                                         style="margin: 0 auto" class="material-icons">delete</i></button>

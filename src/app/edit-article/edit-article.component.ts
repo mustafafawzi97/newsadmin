@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { StorageService, SESSION_STORAGE } from 'angular-webstorage-service';
 import { Articles } from 'app/services/models/articles.model';
 import { formatDate } from '@angular/common';
+import { NgForm } from '@angular/forms';
 const STORAGE_KEY = 'local_user';
 
 @Component({
@@ -28,20 +29,22 @@ export class EditArticleComponent implements OnInit {
     }
     else {
       this.router.params.subscribe(data => {
-        this.article.id = data.id;
-        this.article.title = data.title;
-        this.article.content = data.content;
+        this.article.id = data['id'];
+		console.log(this.article.id);
+        //this.article.title = data.title;
+        //this.article.content = data.content;
         //this.article.image = data.image;
       });
     }
   }
 
-  async saveFormData() {
+  async saveFormData(form: NgForm) {
     let today = new Date();
     this.article.date = formatDate(today, 'medium', 'en-US');
-    await this.webService.addArticle(this.article).subscribe(data => {
+    await this.webService.updateArticle(this.article).subscribe(data => {
       console.log(data['update']);
       if (data['update'] != undefined && data['update'] == true) {
+		form.resetForm();
         this.toastr.show("تم تحديث الخبر بنجاح", "نجاح");
         this.route.navigate(['articles']);
       }

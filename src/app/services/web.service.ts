@@ -29,7 +29,7 @@ export class WebService {
   addArticle(article: Articles): Observable<any> {
     return this.http.post(`${this.SERVER_URL}/news/api/articles/add.php`, { data: article });
   }
-  UpdateArticle(article: Articles): Observable<any> {
+  updateArticle(article: Articles): Observable<any> {
     return this.http.post(`${this.SERVER_URL}/news/api/articles/update.php`, { data: article });
   }
   deleteArticle(id: Number): Observable<any> {
@@ -41,6 +41,10 @@ export class WebService {
   }
   addNotify(notify: Notify): Observable<any> {
     return this.http.post(`${this.SERVER_URL}/news/api/notify/add.php`, { data: notify });
+  }
+
+  sentNotify(notify: Notify): Observable<any> {
+    return this.http.post('https://us-central1-flutternews-66169.cloudfunctions.net/sendToTopic', { 'title': notify.title, 'content': notify.content });
   }
   deleteNotify(id: Number): Observable<any> {
     return this.http.post(`${this.SERVER_URL}/news/api/notify/delete.php`, { data: { 'id': id } });
